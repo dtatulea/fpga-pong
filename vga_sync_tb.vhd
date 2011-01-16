@@ -20,8 +20,9 @@ begin
     port map(clk=>clk, reset=>reset, hsync=>hsync,
              vsync=>vsync, video_on=>video_on,
              pixel_x=>open, pixel_y=>open);
-    reset <= '0';
     sw <= "010";
+    video_on <= '1';
+    
     process
     begin
         for i in 65535 downto 0 loop
@@ -30,6 +31,13 @@ begin
             clk <= '1';
             wait for 5 ns;
             clk <= '0';
+            
+            if i=65534 then
+                reset <= '1';
+            else
+                reset <= '0';
+            end if;
+
         end loop;
     end process;
 
